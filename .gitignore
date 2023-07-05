@@ -475,3 +475,12 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+# Ignore .idea folder
+.idea/
+
+# Ignore .vscode folder
+.vscode/
+
+# Ignore .Files folder
+.Files/
