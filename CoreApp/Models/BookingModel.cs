@@ -2,7 +2,7 @@ namespace CoreApp.Models;
 
 public record BookingModel
 {
-    public int Id { get; set;}
+    public long Id { get; set;}
     public required OwnerInfo OwnerInfo { get; set; }
     public required string Status { get; set;}
     public required string From { get; set; }

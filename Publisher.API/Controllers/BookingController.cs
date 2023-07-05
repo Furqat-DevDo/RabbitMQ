@@ -8,16 +8,10 @@ namespace Publisher.API.Controllers;
 [Route("[controller]")]
 public class BookingController : ControllerBase
 {
-    private readonly ILogger<BookingController> _logger;
-    private readonly IPublisher _messageProducer;
     private readonly IBookingService _bookingService;
 
-    public BookingController(ILogger<BookingController> logger,
-    IPublisher messageProducer, 
-    IBookingService bookingService)
+    public BookingController(IBookingService bookingService)
     {
-        _logger = logger; 
-        _messageProducer = messageProducer;
         _bookingService = bookingService;
     }
 
@@ -27,9 +21,6 @@ public class BookingController : ControllerBase
         if (!ModelState.IsValid) return BadRequest(ModelState);
 
         var createdResult = await _bookingService.CreateBookingAsync(createModel,cancellationToken);
-
-        _messageProducer.PublishMessage("booking",createdResult);
-        _logger.LogInformation(" Booking created event raised , message published to the queue.");
         return Ok(createdResult);
     }
     
