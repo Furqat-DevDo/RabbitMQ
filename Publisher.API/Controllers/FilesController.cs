@@ -1,7 +1,7 @@
+using CoreApp.Services.Abstraction;
 using Microsoft.AspNetCore.Mvc;
-using RabbitMQ.Publisher.API.Services;
 
-namespace RabbitMQ.Publisher.API.Controller;
+namespace Publisher.API.Controllers;
 
 [ApiController]
 [Route("[controller]")]

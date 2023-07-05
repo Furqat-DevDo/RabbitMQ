@@ -1,6 +1,6 @@
-namespace RabbitMQ.Publisher.API.Models;
+﻿namespace CoreApplication.Entities;
 
-public class Booking 
+public class Ticket
 {
     public int Id { get; set;}
     public required string Status { get; set;}

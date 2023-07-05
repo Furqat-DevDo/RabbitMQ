@@ -29,6 +29,7 @@ foreach (var queueName in queueNames)
     {
         var body = eventArgs.Body.ToArray();
         var message = Encoding.UTF8.GetString(body);
+        Console.WriteLine($"Message sender  : {sender}");
         Console.WriteLine($"Received message: {message} from queue: {queueName}");
         channel.BasicAck(deliveryTag: eventArgs.DeliveryTag, multiple: false);
     };

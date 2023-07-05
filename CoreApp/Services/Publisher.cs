@@ -1,8 +1,9 @@
 using System.Text;
 using System.Text.Json;
+using CoreApp.Services.Abstraction;
 using RabbitMQ.Client;
 
-namespace RabbitMQ.Publisher.API.Services;
+namespace CoreApp.Services;
 
 public class Publisher : IPublisher
 {

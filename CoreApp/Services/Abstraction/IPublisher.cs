@@ -1,4 +1,4 @@
-namespace RabbitMQ.Publisher.API.Services;
+namespace CoreApp.Services.Abstraction;
 
 public interface IPublisher 
 {
