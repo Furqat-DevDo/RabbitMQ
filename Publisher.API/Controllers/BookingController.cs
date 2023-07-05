@@ -9,12 +9,13 @@ namespace RabbitMQ.Publisher.API.Controller;
 public class BookingController : ControllerBase
 {
     private readonly ILogger<BookingController> _logger;
-    private readonly IMessageProducer _messageProducer;
+    private readonly IPublisher _messageProducer;
 
     // In Memory DB
-    private readonly List<Booking> _bookings = new List<Booking>();
+    private readonly List<Booking> _bookings = new ();
 
-    public BookingController(ILogger<BookingController> logger,IMessageProducer messageProducer)
+    public BookingController(ILogger<BookingController> logger,
+    IPublisher messageProducer)
     {
         _logger = logger; 
         _messageProducer = messageProducer;
@@ -28,8 +29,7 @@ public class BookingController : ControllerBase
 
         _bookings.Add(CreateModel);
 
-        _messageProducer.SendMessage<Booking>(CreateModel);
-
+        _messageProducer.PublishMessage("booking",CreateModel);
         _logger.LogInformation($" Booking Created .");
 
         return Ok();

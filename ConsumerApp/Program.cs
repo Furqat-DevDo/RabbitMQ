@@ -4,36 +4,36 @@ using RabbitMQ.Client.Events;
 
 Console.WriteLine("RabbitMQ Consumer Application Started.");
 
-var factory = new ConnectionFactory()
+var factory = new ConnectionFactory 
 {
-    HostName = "localhost",
+    HostName = "localhost" ,
     UserName = "user",
     Password = "myPassword",
     VirtualHost = "/"
-};
+}; 
 
-var connection = factory.CreateConnection();
 
+using var connection = factory.CreateConnection();
 using var channel = connection.CreateModel();
 
-channel.QueueDeclare(queue: "booking",
-                     durable: false,
-                     exclusive: false,
-                     autoDelete: false,
-                     arguments: null);
+string[] queueNames = { "files", "booking" };
 
-var consumer = new EventingBasicConsumer(channel);
-
-consumer.Received += (model, ea) =>
+foreach (var queueName in queueNames)
 {
-    var body = ea.Body.ToArray();
-    var message = Encoding.UTF8.GetString(body);
-    Console.WriteLine($" Received new message : {message}");
-};
 
-channel.BasicConsume(queue: "booking",
-                     autoAck: true,
-                     consumer: consumer);
+    channel.QueueDeclare(queue: queueName, durable: true, exclusive: false, autoDelete: false, arguments: null);
 
-Console.WriteLine(" Press enter to exit.");
+    var consumer = new EventingBasicConsumer(channel);
+
+    consumer.Received += (sender, eventArgs) =>
+    {
+        var body = eventArgs.Body.ToArray();
+        var message = Encoding.UTF8.GetString(body);
+        Console.WriteLine($"Received message: {message} from queue: {queueName}");
+        channel.BasicAck(deliveryTag: eventArgs.DeliveryTag, multiple: false);
+    };
+
+    channel.BasicConsume(queue: queueName, autoAck: false, consumer: consumer);
+}
+
 Console.ReadLine();
